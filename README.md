@@ -1,0 +1,2 @@
+# AdsizProje
+dumy
