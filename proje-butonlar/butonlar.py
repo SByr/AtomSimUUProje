@@ -61,16 +61,16 @@ def p_c():
         label2.config(text="Proton Sayısı:"+str((protonsayısı)),font="times 15")
 
 
-    x, y = 500, 290
-    r = 10
-    circle_id = canvas.create_oval(x-r, y-r, x+r, y+r, fill="red",outline="red")
+        x, y = 500, 290
+        r = 10
+        circle_id = canvas.create_oval(x-r, y-r, x+r, y+r, fill="red",outline="red")
 
-    for i in range(200):
-        x += 4 
-        y += 2 
-        canvas.move(circle_id, 4, 2)
-        win.update()
-        win.after(10)
+        for i in range(200):
+            x += 4 
+            y += 2 
+            canvas.move(circle_id, 4, 2)
+            win.update()
+            win.after(10)
 
     if protonsayısı==0:
         x, y = 500, 300
@@ -129,16 +129,16 @@ def n_c():
         label_nötroncikar.place(relx=0.8,rely=0.15,width=150,height=30)
         label_nötroncikar.config(text="Nötron Sayısı:"+str((nötronsayısı)),font="times 15")
 
-    x, y = 500, 270
-    r = 10
-    circle_id = canvas.create_oval(x-r, y-r, x+r, y+r, fill="blue",outline="blue")
+        x, y = 500, 270
+        r = 10
+        circle_id = canvas.create_oval(x-r, y-r, x+r, y+r, fill="blue",outline="blue")
 
-    for i in range(200):
-        x += 4 
-        y += -2 
-        canvas.move(circle_id, 4, -2)
-        win.update()
-        win.after(10)
+        for i in range(200):
+            x += 4 
+            y += -2 
+            canvas.move(circle_id, 4, -2)
+            win.update()
+            win.after(10)
 
     else:
         pass
