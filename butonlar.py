@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-
+from yarilanma import proton_sayısı, yarılanma_ömürleri, elementi_bul, izotopu_bul
 win=tk.Tk()
 win.geometry("1024x568")
-win.title("Atom Similasyonu")
+win.title("Atom Simülasyonu")
 win.configure(bg="#9590A8")
 win.minsize(800,600)
 win.maxsize(1024,568)
@@ -25,6 +25,10 @@ başlık.place(relx=0.35,rely=0.04)
 label_nötron=tk.Label(win,fg="black",bg="white")
 label_nötron.place(relx=0.8,rely=0.15,width=150,height=30)
 label_nötron.config(text="Nötron Sayısı:0",font="times 15")
+
+yarı_ömür = tk.Label(win,bg="white", text="Atom Adı ve Yarı Ömrü:" + str(izotopu_bul(nötronsayısı,protonsayısı)))
+yarı_ömür.place(relx=0.6,rely=0.75,width=400,height=50)
+
 # #proton ekleme fonksiyonu
 
 def p_e():
@@ -33,6 +37,7 @@ def p_e():
     label=tk.Label(win,fg="black",bg="white")
     label.place(relx=0.6,rely=0.15,width=150,height=30)
     label.config(text="Proton Sayısı:"+str((protonsayısı)),font="times 15")
+    yarı_ömür.config(text="Atom Adı ve Yarı Ömrü:" + str(izotopu_bul(nötronsayısı,protonsayısı)),font="times 15")
 
     x, y = 100, 100
     r = 10
@@ -59,6 +64,7 @@ def p_c():
         label2=tk.Label(win,fg="black",bg="white")
         label2.place(relx=0.6,rely=0.15,width=150,height=30)
         label2.config(text="Proton Sayısı:"+str((protonsayısı)),font="times 15")
+        yarı_ömür.config(text="Atom Adı ve Yarı Ömrü:" + str(izotopu_bul(nötronsayısı,protonsayısı)),font="times 15")
 
 
         x, y = 500, 290
@@ -152,6 +158,7 @@ def n_c():
     
 nötron_çıkar=tk.Button(win,text=("Nötron Çıkar"),bg="#BBCBCB",fg="#634B66",font="times 17 ",command=n_c,border=0)
 nötron_çıkar.place(relx=0.05,rely=0.8)
+
 
 
 win.mainloop()
