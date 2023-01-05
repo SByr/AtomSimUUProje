@@ -85,32 +85,34 @@ def elementi_bul(proton):
             return element
     return None
 
-def izotopu_bul(nötron, element):
+def izotopu_bul(nötron, proton):
+    _element = elementi_bul(proton)
     for izotop, yarılanma_ömrü in yarılanma_ömürleri.items():
         # izotopu isim ve atom numarasına ayırma kısmı
         elementin_adı, atom_numarası = izotop.split("-")
         atom_numarası = int(atom_numarası)
-        if nötron + proton == atom_numarası and elementin_adı == element:
+        if nötron + proton == atom_numarası and elementin_adı == _element:
             return izotop, yarılanma_ömrü
     return None
 
-# proton sayısı inputu
-proton = int(input("Proton sayısı girin: "))
+if __name__ == "__main__":
+    # proton sayısı inputu
+    proton = int(input("Proton sayısı girin: "))
 
-# proton sayısından elementi bulma
-element = elementi_bul(proton)
+    # proton sayısından elementi bulma
+    element = elementi_bul(proton)
 
-if element:
-    # nötron sayısı inputu
-    nötron = int(input("Nötron sayısı girin: "))
+    if element:
+        # nötron sayısı inputu
+        nötron = int(input("Nötron sayısı girin: "))
 
-    # proton ve nötron sayısına göre izotopu bulma
-    izotop = izotopu_bul(nötron, element)
+        # proton ve nötron sayısına göre izotopu bulma
+        izotop = izotopu_bul(nötron, element)
 
-    if izotop:
-        elementin_adı, yarılanma_ömrü = izotop
-        print(f"Elementin adı {elementin_adı} ve yarılanma ömrü {yarılanma_ömrü} saniye.")
+        if izotop:
+            elementin_adı, yarılanma_ömrü = izotop
+            print(f"Elementin adı {elementin_adı} ve yarılanma ömrü {yarılanma_ömrü} saniye.")
+        else:
+            print("Verilen element için doğal izotopu yoktur.")
     else:
-        print("Verilen element için doğal izotopu yoktur.")
-else:
-    print("Proton sayısına uygun bir element bulunamadı.")
+        print("Proton sayısına uygun bir element bulunamadı.")
