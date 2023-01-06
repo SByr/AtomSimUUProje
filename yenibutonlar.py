@@ -1,4 +1,5 @@
 import pygame as py
+from yarilanma import proton_sayısı, yarılanma_ömürleri, elementi_bul, izotopu_bul
 
 py.init()
 
@@ -217,6 +218,12 @@ while çalıştır:
     #BAŞLIK
     win.blit(başlık,(450,30))
 
+    #YARİLANMA BİLGİSİ
+
+    yarilanma_text=font.render("Atom Adı ve Yarı Ömrü:"+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
+    win.blit(yarilanma_text,(90,700))
+
+
 
     #PROTON-NÖTRON SAYAÇ
     font = py.font.Font(None, 36)
@@ -224,7 +231,7 @@ while çalıştır:
     win.blit(text, (1100, 110))
 
     text2=font.render(f"Nötron Sayısı: {nötronlar}",True,(255,255,255))
-    win.blit(text2,(1100,210))
+    win.blit(text2,(1100,170))
 
     py.display.flip()
 
