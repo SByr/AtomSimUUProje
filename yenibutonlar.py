@@ -30,7 +30,8 @@ nötronlar=0
 
 
 font=py.font.SysFont("Times",22,bold=True)
-
+font3 = py.font.Font("seguisym.ttf", 26,bold=True)
+font4=py.font.SysFont("Times",20,bold=True)
 #BAŞLIK
 font2=py.font.SysFont("Times",30,bold=True)
 başlık=font2.render("ATOM OLUŞTURMA SİMİLATÖRÜ",1,(255,255,255))
@@ -66,7 +67,16 @@ ne_text=font.render("Nötron Ekle",1,(0x18020C))
 nc_buton=py.Rect(nc_pos,nc_size)
 nc_text=font.render("Nötron Çıkar",1,(0x18020C))
 
+#ELEKTRON BULUTU BUTON
+eb_pos=(255,460)
+eb_size=(30,35)
+eb_color=(255,255,255)
 
+eb_buton=py.Rect(eb_pos,eb_size)
+eb_kapalı_text=font3.render("X",1,(0x18020C))
+eb_açık_text=font3.render("✓",1,(0x18020C))
+kapalı_açık=0
+e_b_durumu_text=font4.render("ELEKTRON BULUTU:",1,(0,0,0))
 
 
 #TANECİK KONUMLARI
@@ -94,6 +104,12 @@ def n_c():
     global nötronlar
     nötronlar-=1
 
+def kapamaaçma():
+    global kapalı_açık
+    if kapalı_açık==1:
+        kapalı_açık-=1
+    elif kapalı_açık==0:
+        kapalı_açık+=1
 
 
 
@@ -128,6 +144,11 @@ while çalıştır:
                 if nötronlar>=1:
                     nötroncıkarma_konum.append((683,434))
                     n_c()
+
+            if eb_buton.collidepoint(mouse_pos):
+                kapamaaçma()
+
+
 
     
     
@@ -182,19 +203,29 @@ while çalıştır:
 
     win.fill(arkaplanrenk)
 
+
     #BUTONLARI ÇİZ
     py.draw.rect(win,pe_color,pe_buton)
     py.draw.rect(win,pc_color,pc_buton)
 
+
     win.blit(pc_text,(90,210))
     win.blit(pe_text,(90,130))
-    
+
 
     py.draw.rect(win,ne_color,ne_buton)
     py.draw.rect(win,nc_color,nc_buton)
-
     win.blit(ne_text,(90,310))
     win.blit(nc_text,(90,390))
+    win.blit(e_b_durumu_text,(50,468))
+
+        
+    py.draw.circle(win,eb_color,(270,480),15)
+
+    if kapalı_açık==0:
+        win.blit(eb_kapalı_text,(262,eb_pos[1]))
+    elif kapalı_açık==1:
+        win.blit(eb_açık_text,(262,eb_pos[1]))
     
     #TANECİKLERİ ÇİZ
     for pe_pos in proton_konum:
@@ -232,6 +263,14 @@ while çalıştır:
 
     text2=font.render(f"Nötron Sayısı: {nötronlar}",True,(255,255,255))
     win.blit(text2,(1100,170))
+
+
+    if kapalı_açık==1:
+        elektronbulutu= py.Surface((350,350),py.SRCALPHA)
+        py.draw.circle(elektronbulutu,(0,0,100,128),(175,200),70)
+        elektronbulutu=elektronbulutu.convert_alpha()
+        elektronbulutu.set_colorkey((0,0,0))
+        win.blit(elektronbulutu,(winsize[0]/2-175-20,winsize[1]/2-175-20))
 
     py.display.flip()
 
