@@ -324,9 +324,42 @@ while çalıştır:
         if protonlar==8:
             Element8=font5.render("O",True,(190,255,255))
             win.blit(Element8,(100,540))
-        # if protonlar==:
-        #     Element=font5.render("",True,(190,255,255))
-        #     win.blit(Element,(100,540))
+        if protonlar==9:
+             Element9=font5.render("F",True,(190,255,255))
+             win.blit(Element9,(100,540))
+        if protonlar==10:
+             Element10=font5.render("Ne",True,(190,255,255))
+             win.blit(Element10,(100,540))
+        if protonlar==11:
+             Element11=font5.render("Na",True,(190,255,255))
+             win.blit(Element11,(100,540))
+        if protonlar==12:
+             Element12=font5.render("Mg",True,(190,255,255))
+             win.blit(Element12,(100,540))
+        if protonlar==13:
+             Element13=font5.render("Al",True,(190,255,255))
+             win.blit(Element13,(100,540))
+        if protonlar==14:
+             Element14=font5.render("Si",True,(190,255,255))
+             win.blit(Element14,(100,540))
+        if protonlar==15:
+             Element15=font5.render("P",True,(190,255,255))
+             win.blit(Element15,(100,540))
+        if protonlar==16:
+             Element16=font5.render("S",True,(190,255,255))
+             win.blit(Element16,(100,540))
+        if protonlar==17:
+             Element17=font5.render("Cl",True,(190,255,255))
+             win.blit(Element17,(100,540))
+        if protonlar==18:
+             Element18=font5.render("Ar",True,(190,255,255))
+             win.blit(Element18,(100,540))
+        if protonlar==19:
+             Element19=font5.render("K",True,(190,255,255))
+             win.blit(Element19,(100,540))
+        if protonlar==20:
+             Element20=font5.render("Ca",True,(190,255,255))
+             win.blit(Element20,(100,540))
 
 
 
