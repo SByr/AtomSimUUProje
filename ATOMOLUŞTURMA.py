@@ -32,6 +32,7 @@ nötronlar=0
 font=py.font.SysFont("Times",22,bold=True)
 font3 = py.font.Font("seguisym.ttf", 26,bold=True)
 font4=py.font.SysFont("Times",20,bold=True)
+font5=py.font.SysFont("Times",100,bold=True)
 #BAŞLIK
 font2=py.font.SysFont("Times",30,bold=True)
 başlık=font2.render("ATOM OLUŞTURMA SİMİLATÖRÜ",1,(255,255,255))
@@ -79,6 +80,14 @@ kapalı_açık=0
 e_b_durumu_text=font4.render("ELEKTRON BULUTU:",1,(0,0,0))
 
 
+#SEMBOL BUTON
+sb_pos=(50,500)
+sb_size=(200,30)
+sb_color=(0,0,0)
+
+sb_buton=py.Rect(sb_pos,sb_size)
+sb_text=font.render("Sembol",1,(190,255,255))
+
 #TANECİK KONUMLARI
 proton_konum=[]
 protoncıkarma_konum=[]
@@ -88,7 +97,7 @@ nötroncıkarma_konum=[]
 
 
 
-
+sembolbilgi=0
 
 def p_e():
     global protonlar
@@ -111,6 +120,13 @@ def kapamaaçma():
         kapalı_açık-=1
     elif kapalı_açık==0:
         kapalı_açık+=1
+
+def sembolonoff():
+    global sembolbilgi
+    if sembolbilgi==1:
+        sembolbilgi-=1
+    elif sembolbilgi==0:
+        sembolbilgi+=1
 
 
 
@@ -148,6 +164,9 @@ while çalıştır:
 
             if eb_buton.collidepoint(mouse_pos):
                 kapamaaçma()
+
+            if sb_buton.collidepoint(mouse_pos):
+                sembolonoff()
 
 
 
@@ -208,11 +227,12 @@ while çalıştır:
     #BUTONLARI ÇİZ
     py.draw.rect(win,pe_color,pe_buton)
     py.draw.rect(win,pc_color,pc_buton)
+    py.draw.rect(win,sb_color,sb_buton)
 
 
     win.blit(pc_text,(90,210))
     win.blit(pe_text,(90,130))
-
+    win.blit(sb_text,(90,502))
 
     py.draw.rect(win,ne_color,ne_buton)
     py.draw.rect(win,nc_color,nc_buton)
@@ -246,6 +266,9 @@ while çalıştır:
 
     if nötronlar==0:
         py.draw.circle(win,arkaplanrenk,(winsize[0]/2-20,winsize[1]/2+27) , 25)
+
+
+    
  
     #BAŞLIK
     win.blit(başlık,(450,30))
@@ -263,6 +286,64 @@ while çalıştır:
 
     text2=font.render(f"Nötron Sayısı: {nötronlar}",True,(255,255,255))
     win.blit(text2,(1100,170))
+
+    if sembolbilgi==1:
+        py.draw.rect(win,(0,0,0),py.Rect(50,530,200,150))
+        eksi=font.render(" -",True,(190,255,255))
+        win.blit(eksi,(60,500))
+        atomnumarası=font.render(f"{protonlar}",True,(190,255,255))
+        win.blit(atomnumarası,(77,630))
+        kütlenumarası=(protonlar)+(nötronlar)
+        kütlenumarası_text=font.render(f"{kütlenumarası}",True,(190,255,255))
+        win.blit(kütlenumarası_text,(77,550))
+
+        if protonlar==0:
+            yok=font5.render("-",True,(190,255,255))
+            win.blit(yok,(125,530))
+        if protonlar==1:
+            hidrojen=font5.render("H",True,(190,255,255))
+            win.blit(hidrojen,(100,540))
+        if protonlar==2:
+            helyum=font5.render("He",True,(190,255,255))
+            win.blit(helyum,(100,540))
+        if protonlar==3:
+            lityum=font5.render("Li",True,(190,255,255))
+            win.blit(lityum,(100,540))
+        if protonlar==4:
+            Element4=font5.render("Be",True,(190,255,255))
+            win.blit(Element4,(100,540))
+        if protonlar==5:
+            Element5=font5.render("B",True,(190,255,255))
+            win.blit(Element5,(100,540))
+        if protonlar==6:
+            Element6=font5.render("C",True,(190,255,255))
+            win.blit(Element6,(100,540))
+        if protonlar==7:
+            Element7=font5.render("N",True,(190,255,255))
+            win.blit(Element7,(100,540))
+        if protonlar==8:
+            Element8=font5.render("O",True,(190,255,255))
+            win.blit(Element8,(100,540))
+        # if protonlar==:
+        #     Element=font5.render("",True,(190,255,255))
+        #     win.blit(Element,(100,540))
+
+
+
+        
+
+
+
+
+
+
+
+
+
+    if sembolbilgi==0:
+        artı=font.render("+",True,(190,255,255))
+        win.blit(artı,(60,500))
+
 
 
     if kapalı_açık==1:
