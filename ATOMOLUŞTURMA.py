@@ -70,7 +70,7 @@ nc_text=font.render("Nötron Çıkar",1,(0x18020C))
 #ELEKTRON BULUTU BUTON
 eb_pos=(255,460)
 eb_size=(30,35)
-eb_color=(255,255,255)
+eb_color=(100,255,255)
 
 eb_buton=py.Rect(eb_pos,eb_size)
 eb_kapalı_text=font3.render("X",1,(0x18020C))
@@ -85,6 +85,7 @@ protoncıkarma_konum=[]
 
 nötron_konum=[]
 nötroncıkarma_konum=[]
+
 
 
 
@@ -252,8 +253,7 @@ while çalıştır:
     #YARİLANMA BİLGİSİ
 
     yarilanma_text=font.render("Atom Adı ve Yarı Ömrü:"+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
-    win.blit(yarilanma_text,(90,700))
-
+    win.blit(yarilanma_text,(50,700))
 
 
     #PROTON-NÖTRON SAYAÇ
