@@ -1,5 +1,6 @@
 import pygame as py
 from yarilanma import proton_sayısı, yarılanma_ömürleri, elementi_bul, izotopu_bul
+from threading import Event
 
 py.init()
 
@@ -33,6 +34,7 @@ font=py.font.SysFont("Times",22,bold=True)
 font3 = py.font.Font("seguisym.ttf", 26,bold=True)
 font4=py.font.SysFont("Times",20,bold=True)
 font5=py.font.SysFont("Times",100,bold=True)
+font6 = py.font.Font("seguisym.ttf", 36,bold=True)
 #BAŞLIK
 font2=py.font.SysFont("Times",30,bold=True)
 başlık=font2.render("ATOM OLUŞTURMA SİMİLATÖRÜ",1,(255,255,255))
@@ -80,6 +82,7 @@ kapalı_açık=0
 e_b_durumu_text=font4.render("ELEKTRON BULUTU:",1,(0,0,0))
 
 
+
 #SEMBOL BUTON
 sb_pos=(50,500)
 sb_size=(200,30)
@@ -88,15 +91,24 @@ sb_color=(0,0,0)
 sb_buton=py.Rect(sb_pos,sb_size)
 sb_text=font.render("Sembol",1,(190,255,255))
 
+
+#SIFIRLA BUTONU
+sıfırla_buton_pos=(1150,248)
+sıfırla_buton_size=(150,30)
+sıfırla_buton_color=(0,0,0)
+
+sıfırla_buton=py.Rect(sıfırla_buton_pos,sıfırla_buton_size)
+
 #TANECİK KONUMLARI
 proton_konum=[]
 protoncıkarma_konum=[]
-
 nötron_konum=[]
 nötroncıkarma_konum=[]
 
 
 
+başlangıç=py.time.get_ticks()
+beşsaniye=5000
 sembolbilgi=0
 
 def p_e():
@@ -108,8 +120,10 @@ def p_c():
     protonlar-=1
 
 def n_e():
+
     global nötronlar
     nötronlar+=1
+
 def n_c():
     global nötronlar
     nötronlar-=1
@@ -130,12 +144,12 @@ def sembolonoff():
 
 
 
+
 çalıştır=True
 while çalıştır:
 
-
-
     for event in py.event.get():
+
         if event.type==py.QUIT:
             çalıştır=False
         if event.type== py.MOUSEBUTTONDOWN:
@@ -144,17 +158,23 @@ while çalıştır:
             if pe_buton.collidepoint(mouse_pos):
                 proton_konum.append((90,130))
                 p_e()
+
+
                 
             if pc_buton.collidepoint(mouse_pos):
                 if protonlar>=1:
                     protoncıkarma_konum.append((683,394))
                     p_c()
-                else:
-                    pass
+
+
+
+
+
 
             if ne_buton.collidepoint(mouse_pos):
-                nötron_konum.append((90,330))
                 n_e()
+                nötron_konum.append((90,330))
+
 
 
             if nc_buton.collidepoint(mouse_pos):
@@ -168,10 +188,10 @@ while çalıştır:
             if sb_buton.collidepoint(mouse_pos):
                 sembolonoff()
 
+            if sıfırla_buton.collidepoint(mouse_pos):
+                protonlar=0
+                nötronlar=0
 
-
-    
-    
     for i, pe_pos in enumerate(proton_konum):
         xyol=winsize[0]/2 - proton_çap - pe_pos[0]
         yyol=winsize[1]/2 - proton_çap - pe_pos[1]
@@ -220,46 +240,79 @@ while çalıştır:
             nötroncıkarma_konum[i]=(nc_pos[0]+ xhareket,nc_pos[1]+yhareket)
 
 
-
     win.fill(arkaplanrenk)
-
-
     #BUTONLARI ÇİZ
     py.draw.rect(win,pe_color,pe_buton)
-    py.draw.rect(win,pc_color,pc_buton)
-    py.draw.rect(win,sb_color,sb_buton)
-
-
-    win.blit(pc_text,(90,210))
     win.blit(pe_text,(90,130))
-    win.blit(sb_text,(90,502))
+
+    py.draw.rect(win,pc_color,pc_buton)
+    win.blit(pc_text,(90,210))  
+
+    py.draw.rect(win,sb_color,sb_buton)
+    win.blit(sb_text,(90,502))  
 
     py.draw.rect(win,ne_color,ne_buton)
-    py.draw.rect(win,nc_color,nc_buton)
     win.blit(ne_text,(90,310))
+
+    py.draw.rect(win,nc_color,nc_buton)
     win.blit(nc_text,(90,390))
+   
+    py.draw.circle(win,eb_color,(270,480),15)
     win.blit(e_b_durumu_text,(50,468))
 
-        
-    py.draw.circle(win,eb_color,(270,480),15)
+    py.draw.rect(win,sıfırla_buton_color,sıfırla_buton)
 
+    #ELEKTRON BULUTU
     if kapalı_açık==0:
         win.blit(eb_kapalı_text,(262,eb_pos[1]))
     elif kapalı_açık==1:
         win.blit(eb_açık_text,(262,eb_pos[1]))
     
+    # YARİLANMA BİLGİSİ
+    yarilanma_text=font.render(""+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
+    win.blit(yarilanma_text,(545,270))
+
+    if str(izotopu_bul(nötronlar,protonlar+1))=="None":
+        pe_oluşmaz=py.Surface((pe_size))
+        pe_oluşmaz.set_alpha(128)
+        pe_oluşmaz.fill((255,0,0))
+        win.blit(pe_oluşmaz,(50,120))
+
+    if str(izotopu_bul(nötronlar,protonlar-1))=="None":
+        pc_oluşmaz=py.Surface((pc_size))
+        pc_oluşmaz.set_alpha(128)
+        pc_oluşmaz.fill((255,0,0))
+        win.blit(pc_oluşmaz,(50,200))
+
+
+
+    if str(izotopu_bul(nötronlar+1,protonlar))=="None":
+        ne_oluşmaz=py.Surface((ne_size))
+        ne_oluşmaz.set_alpha(128)
+        ne_oluşmaz.fill((255,0,0))
+        win.blit(ne_oluşmaz,(50,300))
+
+    if str(izotopu_bul(nötronlar-1,protonlar))=="None":
+        nc_oluşmaz=py.Surface((nc_size))
+        nc_oluşmaz.set_alpha(128)
+        nc_oluşmaz.fill((255,0,0))
+        win.blit(nc_oluşmaz,(50,380))
+
     #TANECİKLERİ ÇİZ
+
     for pe_pos in proton_konum:
         py.draw.circle(win,proton_renk,pe_pos,proton_çap)
     
     for pc_pos in protoncıkarma_konum:
         py.draw.circle(win,proton_renk,pc_pos,proton_çap)
 
+
     for ne_pos in nötron_konum:
         py.draw.circle(win,nötron_renk,ne_pos,nötron_çap)
     
     for nc_pos in nötroncıkarma_konum:
         py.draw.circle(win,nötron_renk,nc_pos,nötron_çap)
+
 
     if protonlar==0:
         py.draw.circle(win,arkaplanrenk,(winsize[0]/2-20,winsize[1]/2-20) , 25)
@@ -268,24 +321,26 @@ while çalıştır:
         py.draw.circle(win,arkaplanrenk,(winsize[0]/2-20,winsize[1]/2+27) , 25)
 
 
-    
- 
     #BAŞLIK
     win.blit(başlık,(450,30))
 
-    #YARİLANMA BİLGİSİ
 
-    yarilanma_text=font.render("Atom Adı ve Yarı Ömrü:"+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
-    win.blit(yarilanma_text,(50,700))
 
 
     #PROTON-NÖTRON SAYAÇ
     font = py.font.Font(None, 36)
     text = font.render(f"Proton Sayısı: {protonlar}", True, (255, 255, 255))
     win.blit(text, (1100, 110))
-
     text2=font.render(f"Nötron Sayısı: {nötronlar}",True,(255,255,255))
     win.blit(text2,(1100,170))
+
+
+    yenile_text=font6.render("⟳",1,(255,255,255))
+    win.blit(yenile_text,(1260,235))
+    yenile_text2=font.render("Sıfırla:",1,(255,255,255))
+    win.blit(yenile_text2,(1160,250))
+
+
 
     if sembolbilgi==1:
         py.draw.rect(win,(0,0,0),py.Rect(50,530,200,150))
@@ -361,23 +416,9 @@ while çalıştır:
              Element20=font5.render("Ca",True,(190,255,255))
              win.blit(Element20,(100,540))
 
-
-
-        
-
-
-
-
-
-
-
-
-
     if sembolbilgi==0:
         artı=font.render("+",True,(190,255,255))
         win.blit(artı,(60,500))
-
-
 
     if kapalı_açık==1:
         elektronbulutu= py.Surface((350,350),py.SRCALPHA)
