@@ -1,3 +1,7 @@
+#PROJENİN KENDİSİ DEĞİLDİR TKİNTER İLE YAPILMIŞ İLK DENEMEDİR BUGLARDAN DOLAYI PYGAME GEÇİLDİ
+#-ALİ KOÇ
+
+
 import tkinter as tk
 from tkinter import ttk
 from yarilanma import proton_sayısı, yarılanma_ömürleri, elementi_bul, izotopu_bul
