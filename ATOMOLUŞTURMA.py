@@ -155,32 +155,33 @@ while çalıştır:
         if event.type== py.MOUSEBUTTONDOWN:
             mouse_pos=py.mouse.get_pos()
 
-            if pe_buton.collidepoint(mouse_pos):
-                proton_konum.append((90,130))
-                p_e()
+            if str(izotopu_bul(nötronlar,protonlar+1))!="None":
+                if pe_buton.collidepoint(mouse_pos):
+                    proton_konum.append((90,130))
+                    p_e()
 
 
-                
-            if pc_buton.collidepoint(mouse_pos):
-                if protonlar>=1:
-                    protoncıkarma_konum.append((683,394))
-                    p_c()
-
-
-
-
-
-
-            if ne_buton.collidepoint(mouse_pos):
-                n_e()
-                nötron_konum.append((90,330))
+            if str(izotopu_bul(nötronlar,protonlar-1))!="None":    
+                if pc_buton.collidepoint(mouse_pos):
+                    if protonlar>=1:
+                        protoncıkarma_konum.append((683,394))
+                        p_c()
 
 
 
-            if nc_buton.collidepoint(mouse_pos):
-                if nötronlar>=1:
-                    nötroncıkarma_konum.append((683,434))
-                    n_c()
+
+
+            if str(izotopu_bul(nötronlar+1,protonlar))!="None":
+                if ne_buton.collidepoint(mouse_pos):
+                    n_e()
+                    nötron_konum.append((90,330))
+
+
+            if str(izotopu_bul(nötronlar-1,protonlar))!="None":
+                if nc_buton.collidepoint(mouse_pos):
+                    if nötronlar>=1:
+                        nötroncıkarma_konum.append((683,434))
+                        n_c()
 
             if eb_buton.collidepoint(mouse_pos):
                 kapamaaçma()
