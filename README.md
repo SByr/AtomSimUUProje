@@ -1,7 +1,6 @@
-# proje grubu ve yapılacaklar
-salim bayram, furkan ipek, ali koç, ömer
--pygame ile proton ve nötron ekleme
--atom simulasyounu tkinter'e baglayıp proton elke çıkar butonu yapma
--listeden yarım ömür bilgisi çekme
--?
-Not: yarilanma.py (atomun yarılanma ömrünü getiren fonksiyon ve sözlük bilgisi) çoğunlukla ömer tarafından yazıldı yeniden adlandırma yüzünden commit geçmişini github yoketti
+# Proje Detayları
+Ali Koç(AliKocVP), Salim Bayram(SByr), Ömer(alchemistofflames (Furkan İpek bütünlemede verecek.)
+Atomlar oluşur iken proton ve nötronların belirli bir oranda birleşmesi ile belirli bir kararlılık oluştururlar. Çoğunlukla bu kararlılık deney sonucu elde edilir. Atomlar ayrıca dışarıdan nötron veya proton alabilir veya kendi proton ve nötronlarını ışıma yaparak değiştirebilir. Bu proje atomun bu özelliklerini simüle etmektedir.
+Ali Koç - Ana GUI
+Salim Bayram - Beta Işımaları, Orbitaller ve son dokunuşlar
+Ömer - Yarılanma ömürleri, Entegrasyonlar
