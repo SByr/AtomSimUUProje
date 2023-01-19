@@ -138,7 +138,6 @@ def orbitalHesapla(p):
         a,b = i
         m = 2*b + 1
         orbitalKapasite += 2*m
-        print(indeks)
         if orbitalKapasite >= p:
             orb.append(orbitaller[indeks-1])
             break
