@@ -1,5 +1,5 @@
 import pygame as py
-from yarilanma import proton_sayısı, yarılanma_ömürleri, elementi_bul, izotopu_bul
+from yarilanma import proton_sayısı, yarılanma_ömürleri, maxOrbitalDuzeni, orbitaller, elementi_bul, izotopu_bul, orbitalHesapla
 
 py.init()
 
@@ -31,8 +31,17 @@ font6 = py.font.Font("seguisym.ttf", 36,bold=True)
 
 #BAŞLIK
 font2=py.font.SysFont("Times",30,bold=True)
-başlık=font2.render("ATOM ÇEKİRDEĞİ OLUŞTURMA SİMİLASYONU",1,(255,255,255))
+başlık=font2.render("ATOM ÇEKİRDEĞİ OLUŞTURMA SİMÜLASYONU",1,(255,255,255))
 arkaplanrenk=(11,32,39)
+
+
+#ÇIKIŞ BUTONU
+cb_pos = (1300, 30)
+cb_size = (50, 50)
+cb_color = (64,121,140)
+
+cikisButonu = py.Rect(cb_pos,cb_size)
+cikisText = font.render("X",1,(0x18020C))
 
 #PROTON EKLE-ÇIKAR BUTONLARI
 pe_pos=(50,120)
@@ -61,6 +70,20 @@ ne_text=font.render("Nötron Ekle",1,(0x18020C))
 
 nc_buton=py.Rect(nc_pos,nc_size)
 nc_text=font.render("Nötron Çıkar",1,(0x18020C))
+
+#BETA IŞIMASI BUTONLARI
+bip_pos = (300,325)
+bip_cap = (50,50)
+bip_color = (64,121,140)
+bin_pos = (300,405)
+bin_cap = (50,50)
+bin_color = (64,121,140)
+
+bip_buton=py.Rect(bip_pos,bip_cap)
+bip_text=font.render("β+",1,(0x18020C))
+
+bin_buton=py.Rect(bin_pos,bin_cap)
+bin_text=font.render("β−",1,(0x18020C))
 
 #ELEKTRON BULUTU BUTON
 eb_pos=(255,460)
@@ -96,6 +119,10 @@ nötron_konum=[]
 nötroncıkarma_konum=[]
 
 #FONKSİYONLAR
+def cik():
+    çalıştır=False
+    py.quit()
+
 def p_e():
     global protonlar
     protonlar+=1
@@ -105,13 +132,24 @@ def p_c():
     protonlar-=1
 
 def n_e():
-
     global nötronlar
     nötronlar+=1
 
 def n_c():
     global nötronlar
     nötronlar-=1
+
+def b_p():
+    global nötronlar
+    global protonlar
+    nötronlar+=1
+    protonlar-=1
+
+def b_n():
+    global nötronlar
+    global protonlar
+    nötronlar-=1
+    protonlar+=1
 
 def kapamaaçma():
     global kapalı_açık
@@ -138,6 +176,10 @@ while çalıştır:
             mouse_pos=py.mouse.get_pos()
 
             #BUTON-FARE ETKİLEŞİMLERİ
+            
+            if cikisButonu.collidepoint(mouse_pos):
+                cik()
+            
             if str(izotopu_bul(nötronlar,protonlar+1))!="None":
                 if pe_buton.collidepoint(mouse_pos):
                     proton_konum.append((90,130))
@@ -160,6 +202,20 @@ while çalıştır:
                     if nötronlar>=1:
                         nötroncıkarma_konum.append((683,434))
                         n_c()
+            
+            if str(izotopu_bul(nötronlar-1,protonlar-1))!="None" and izotopu_bul(nötronlar+1,protonlar-1) != None:
+                if bip_buton.collidepoint(mouse_pos):
+                    if nötronlar>=1:
+                        protoncıkarma_konum.append((683,394))
+                        b_p()
+                        nötron_konum.append((90,330))
+
+            if str(izotopu_bul(nötronlar-1,protonlar-1))!="None" and izotopu_bul(nötronlar-1,protonlar+1) != None:
+                if bin_buton.collidepoint(mouse_pos):
+                    if nötronlar>=1:
+                        nötroncıkarma_konum.append((683,434))
+                        b_n()
+                        proton_konum.append((90,130))
 
             if eb_buton.collidepoint(mouse_pos):
                 kapamaaçma()
@@ -224,6 +280,16 @@ while çalıştır:
     win.fill(arkaplanrenk)
 
     #BUTONLARI ÇİZ
+    
+    py.draw.circle(win,bip_color,bip_pos,30)
+    win.blit(bip_text,(300,320))
+
+    py.draw.circle(win,bip_color,bin_pos,30)
+    win.blit(bin_text,(300,400))
+    
+    py.draw.rect(win,cb_color,cikisButonu)
+    win.blit(cikisText,(1317,39))
+    
     py.draw.rect(win,pe_color,pe_buton)
     win.blit(pe_text,(90,130))
 
@@ -251,10 +317,33 @@ while çalıştır:
         win.blit(eb_açık_text,(262,eb_pos[1]))
     
     # YARİLANMA BİLGİSİ
-    yarilanma_text=font.render(""+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
-    win.blit(yarilanma_text,(555,285))
-    yarilanma_text2=font.render("Element Adı ve Yarı Ömrü;",True,(255,255,255))
-    win.blit(yarilanma_text2,(515,250))
+    
+    global omurAtom , omur
+    omurAtom , omur = None, None
+    if protonlar >= 1 and izotopu_bul(nötronlar,protonlar) != None:
+        
+        omurAtom , omur = izotopu_bul(nötronlar,protonlar)
+    
+    if omur == None:
+        pass
+    elif omur < 0.0000001:
+        yarilanma_text=font.render("(" + omurAtom +" ,Stabil)",True,(255,255,255))
+        win.blit(yarilanma_text,(555,285))
+        yarilanma_text2=font.render("Element Adı ve Yarı Ömrü;",True,(255,255,255))
+        win.blit(yarilanma_text2,(515,250))
+    else: 
+        yarilanma_text=font.render(""+ str(izotopu_bul(nötronlar,protonlar)),True,(255,255,255))
+        win.blit(yarilanma_text,(555,285))
+        yarilanma_text2=font.render("Element Adı ve Yarı Ömrü;",True,(255,255,255))
+        win.blit(yarilanma_text2,(515,250))
+    
+    #Orbital Göstergesi
+
+    orbitalText1 = font.render("Orbital",True,(255,255,255))
+    win.blit(orbitalText1,(750, 700))
+    orbitalText2 = font.render(""+str(orbitalHesapla(protonlar)),True,(255,255,255))
+    win.blit(orbitalText2,(900, 700))
+
     #ATOM OLUŞMUYORSA BUTONU KIRMIZIYA BOYAMA
     if str(izotopu_bul(nötronlar,protonlar+1))=="None":
         pe_oluşmaz=py.Surface((pe_size))

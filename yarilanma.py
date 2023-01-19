@@ -126,3 +126,23 @@ if __name__ == "__main__":
             print("Verilen element için doğal izotopu yoktur.")
     else:
         print("Proton sayısına uygun bir element bulunamadı.")
+
+maxOrbitalDuzeni = [(1,0),(2,0),(2,1),(3,0),(3,1),(4,0),(3,2)] #devam ediyor ama projenin menzilinde değil
+orbitaller = ["1s","2s","2p","3s","3p","4s","3d"]
+def orbitalHesapla(p):
+    orbitalKapasite = 0
+    indeks = 0
+    orb = []
+    for i in maxOrbitalDuzeni:
+        indeks = indeks + 1
+        a,b = i
+        m = 2*b + 1
+        orbitalKapasite += 2*m
+        print(indeks)
+        if orbitalKapasite >= p:
+            orb.append(orbitaller[indeks-1])
+            break
+        else:
+            orb.append(orbitaller[indeks-1])
+            continue
+    return orb
