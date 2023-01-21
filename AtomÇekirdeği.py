@@ -72,18 +72,31 @@ nc_buton=py.Rect(nc_pos,nc_size)
 nc_text=font.render("Nötron Çıkar",1,(0x18020C))
 
 #BETA IŞIMASI BUTONLARI
-bip_pos = (300,325)
-bip_cap = (50,50)
+bip_pos = (1005,350)
+bip_cap = (200,40)
 bip_color = (64,121,140)
-bin_pos = (300,405)
-bin_cap = (50,50)
+
+bin_pos = (1005,410)
+bin_cap = (200,40)
 bin_color = (64,121,140)
 
+alfa_pos=(1005,470)
+alfa_size = (200,40)
+alfa_color = (64,121,140)
+
+proton_text=font.render("Proton",1,(255,255,255))
+nötron_text=font.render("Nötron",1,(255,255,255))
+elektron_text=font.render("Elektron",1,(255,255,255))
+pozitron_text=font.render("Pozitron",1,(255,255,255))
+
 bip_buton=py.Rect(bip_pos,bip_cap)
-bip_text=font.render("β+",1,(0x18020C))
+bip_text=font.render("β+ Bozunması",1,(0x18020C))
 
 bin_buton=py.Rect(bin_pos,bin_cap)
-bin_text=font.render("β−",1,(0x18020C))
+bin_text=font.render("β- Bozunması",1,(0x18020C))
+
+alfa_buton=py.Rect(alfa_pos,alfa_size)
+alfa_text=font.render("α Bozunması",1,(0x18020C))
 
 #ELEKTRON BULUTU BUTON
 eb_pos=(255,460)
@@ -117,6 +130,11 @@ proton_konum=[]
 protoncıkarma_konum=[]
 nötron_konum=[]
 nötroncıkarma_konum=[]
+elektron_konum=[]
+pozitron_konum=[]
+
+
+
 
 #FONKSİYONLAR
 def cik():
@@ -150,6 +168,15 @@ def b_n():
     global protonlar
     nötronlar-=1
     protonlar+=1
+
+
+def alfa_bozunması():
+    global nötronlar
+    global protonlar
+    nötronlar-=2
+    protonlar-=2
+    nötroncıkarma_konum.append((683,434))
+    protoncıkarma_konum.append((683,394))
 
 def kapamaaçma():
     global kapalı_açık
@@ -203,19 +230,24 @@ while çalıştır:
                         nötroncıkarma_konum.append((683,434))
                         n_c()
             
-            if str(izotopu_bul(nötronlar-1,protonlar-1))!="None" and izotopu_bul(nötronlar+1,protonlar-1) != None:
+            if str(izotopu_bul(nötronlar+1,protonlar-1))!="None":
                 if bip_buton.collidepoint(mouse_pos):
                     if nötronlar>=1:
-                        protoncıkarma_konum.append((683,394))
+                        elektron_konum.append((683,394))
                         b_p()
                         nötron_konum.append((90,330))
 
-            if str(izotopu_bul(nötronlar-1,protonlar-1))!="None" and izotopu_bul(nötronlar-1,protonlar+1) != None:
+            if str(izotopu_bul(nötronlar-1,protonlar+1))!="None":
                 if bin_buton.collidepoint(mouse_pos):
                     if nötronlar>=1:
-                        nötroncıkarma_konum.append((683,434))
+                        pozitron_konum.append((683,434))
                         b_n()
                         proton_konum.append((90,130))
+
+            if str(izotopu_bul(nötronlar-2,protonlar-2))!="None":
+                if alfa_buton.collidepoint(mouse_pos):
+                    alfa_bozunması()
+
 
             if eb_buton.collidepoint(mouse_pos):
                 kapamaaçma()
@@ -276,17 +308,64 @@ while çalıştır:
 
             nötroncıkarma_konum[i]=(nc_pos[0]+ xhareket,nc_pos[1]+yhareket)
 
+    for i, bp_pos in enumerate(elektron_konum):
+
+        xyol=winsize[1]*2 - bp_pos[0]
+        yyol=winsize[0]/2 - bp_pos[1]
+
+        xhareket=xyol*hız/1.5
+        yhareket=0
+
+
+        elektron_konum[i]=(bp_pos[0]+ xhareket,bp_pos[1]+yhareket)
+
+    for i, bn_pos in enumerate(pozitron_konum):
+
+        xyol=winsize[1]*2 - bn_pos[0]
+        yyol=winsize[0]/2 - bn_pos[1]
+
+        xhareket=xyol*hız/1.5
+        yhareket=0
+
+
+        pozitron_konum[i]=(bn_pos[0]+ xhareket,bn_pos[1]+yhareket)
+
 
     win.fill(arkaplanrenk)
 
-    #BUTONLARI ÇİZ
-    
-    py.draw.circle(win,bip_color,bip_pos,30)
-    win.blit(bip_text,(300,320))
 
-    py.draw.circle(win,bip_color,bin_pos,30)
-    win.blit(bin_text,(300,400))
     
+
+    #IŞIMALAR
+
+    py.draw.rect(win,(11,12,39),py.Rect(1000,300,300,325))
+    bozunmalar_text=font.render("Mevcut Bozunmalar",True,(255,255,255))
+    win.blit(bozunmalar_text,(1030,310))
+
+
+    py.draw.rect(win,bip_color,bin_buton)
+    win.blit(bip_text,(1010,420))
+
+    py.draw.rect(win,bip_color,bip_buton)
+    win.blit(bin_text,(1010,355))
+
+    py.draw.rect(win,alfa_color,alfa_buton)
+    win.blit(alfa_text,(alfa_pos[0]+5,alfa_pos[1]+5))
+
+    py.draw.circle(win,(255,255,255),(1020,550),15)
+    win.blit(proton_text,(1037,536))
+
+    py.draw.circle(win,(0,0,0),(1150,550),15)
+    win.blit(nötron_text,(1170,536))
+
+    py.draw.circle(win,(0,255,0),(1150,590),10)
+    win.blit(pozitron_text,(1170,576))
+
+    py.draw.circle(win,(0,0,255),(1020,590),10)
+    win.blit(elektron_text,(1037,576))
+
+
+    #BUTONLARI ÇİZ
     py.draw.rect(win,cb_color,cikisButonu)
     win.blit(cikisText,(1317,39))
     
@@ -345,6 +424,7 @@ while çalıştır:
     win.blit(orbitalText2,(900, 700))
 
     #ATOM OLUŞMUYORSA BUTONU KIRMIZIYA BOYAMA
+
     if str(izotopu_bul(nötronlar,protonlar+1))=="None":
         pe_oluşmaz=py.Surface((pe_size))
         pe_oluşmaz.set_alpha(128)
@@ -370,6 +450,25 @@ while çalıştır:
         nc_oluşmaz.fill((255,0,0))
         win.blit(nc_oluşmaz,(50,380))
 
+    
+    if str(izotopu_bul(nötronlar+1,protonlar-1))=="None":
+        bp_oluşmaz=py.Surface((bip_cap))
+        bp_oluşmaz.set_alpha(128)
+        bp_oluşmaz.fill((255,0,0))
+        win.blit(bp_oluşmaz,(bip_pos))
+
+    if str(izotopu_bul(nötronlar-1,protonlar+1))=="None":
+        bn_oluşmaz=py.Surface((bin_cap))
+        bn_oluşmaz.set_alpha(128)
+        bn_oluşmaz.fill((255,0,0))
+        win.blit(bn_oluşmaz,(bin_pos))
+
+    if str(izotopu_bul(nötronlar-2,protonlar-2))=="None":
+        alfa_oluşmaz=py.Surface((alfa_size))
+        alfa_oluşmaz.set_alpha(128)
+        alfa_oluşmaz.fill((255,0,0))
+        win.blit(alfa_oluşmaz,(alfa_pos))
+
     #TANECİKLERİ ÇİZ
     for pe_pos in proton_konum:
         py.draw.circle(win,proton_renk,pe_pos,proton_çap)
@@ -384,6 +483,12 @@ while çalıştır:
     for nc_pos in nötroncıkarma_konum:
         py.draw.circle(win,nötron_renk,nc_pos,nötron_çap)
 
+    for bp_pos in elektron_konum:
+        py.draw.circle(win,(0,0,255),bp_pos,10)
+
+
+    for bn_pos in pozitron_konum:
+        py.draw.circle(win,(0,255,0),bn_pos,10)
 
     #PROTON-NÖTRON SIFIRLANDIĞINDA EKRANIN ORTASINI TEMİZLEME
     if protonlar==0:
